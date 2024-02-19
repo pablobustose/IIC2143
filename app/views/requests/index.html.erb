@@ -1,0 +1,22 @@
+<h1>Carrito actual</h1>
+<table>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Talla</th>
+        <th>Borrar</th>
+        <th>Comprar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @requests.each do |request| %>
+        <tr>
+          <td><%= request.product.name %></td>
+          <td><%= request.talla %></td>
+          <td><%= link_to 'Eliminar', request, method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar esta solicitud?' } %></td>
+          <td><%= link_to 'Comprar', comprar_request_path(request, product_id: request.product_id), method: :post, data: { confirm: '¿Estás seguro de que deseas comprar?' } %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>

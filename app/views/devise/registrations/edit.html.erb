@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Editar Usuario </title>
+</head>
+<body>
+  <div class="container">
+    <h2>Editar Usuario </h2>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <%= f.label :Nombre %><br />
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :Imagen %><br />
+        <%= image_tag(current_user.image_url, style: "display: inline-block; height: 200px; width: 200px; object-fit: cover; border-radius: 50%;") %>
+      </div>
+
+      <div class="form-group">
+        <%= f.file_field :image, class: 'form-control' %>
+      </div>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :password %> <i>(Dejar en blanco si no deseas cambiar la contraseña)</i><br />
+        <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :current_password %> <i>(Ingresar contraseña para confirmar cambios)</i><br />
+        <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Actualizar", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+    <h3>¿Deseas eliminar tu cuenta?</h3>
+
+    <div>
+      <%= button_to "Eliminar mi cuenta", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
+    </div>
+
+    <a href="<%= request.referrer || root_path %>" class="btn btn-secondary">Volver</a>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

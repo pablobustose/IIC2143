@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <%= link_to "Todas las salas", rooms_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><b>Nombre:</b></td>
+            <td><i><%= @room.name %></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Mensajes</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Mensaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @room.room_messages.each do |message| %>
+            <tr>
+              <td><%= message.user.email %></td>
+              <td><%= message.content %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <% if user_signed_in? %>
+        <%= link_to "Agregar mensaje", new_room_room_message_path(@room), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</div>

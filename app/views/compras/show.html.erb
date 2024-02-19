@@ -1,0 +1,17 @@
+<h1>Muchas gracias por tu compra!</h1>
+
+<table>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Talla</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+    <td><%= Product.find(@compra.product_id).name %></td>
+    <td><%= @compra.talla %></td>
+    <td><%= @compra.status %></td>
+  </tbody>
+</table>

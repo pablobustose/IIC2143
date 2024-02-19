@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title></title>
+</head>
+<body>
+  <div class="container">
+    <h2></h2>
+
+    <%= form_with(model: @product, local: true) do |form| %>
+      <% if @product.errors.any? %>
+        <div class="alert alert-danger">
+          <h4><%= pluralize(@product.errors.count, "error") %> que no permiten guardar el nuevo producto:</h4>
+          <ul>
+            <% @product.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= form.label :nombre_producto, class: "font-weight-bold" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :precio, class: "font-weight-bold" %>
+        <%= form.number_field :price, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :descripcion, class: "font-weight-bold" %>
+        <%= form.text_area :description, rows: 4, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :imagen %>
+        <%= form.file_field :image %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock_Talla_XS.capitalize %>
+        <%= form.number_field :cantidad_xs, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock_Talla_S.capitalize %>
+        <%= form.number_field :cantidad_s, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock_Talla_M.capitalize %>
+        <%= form.number_field :cantidad_m, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock_Talla_L.capitalize %>
+        <%= form.number_field :cantidad_l, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :stock_Talla_XL.capitalize %>
+        <%= form.number_field :cantidad_xl, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.hidden_field :id_vendedor, value: current_user.id %>
+        <%= form.submit "Guardar", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <a href="<%= request.referrer || root_path %>" class="btn btn-secondary">Volver</a>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

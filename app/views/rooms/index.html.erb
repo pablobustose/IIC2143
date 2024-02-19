@@ -1,0 +1,74 @@
+<div id="Rooms">
+  <% if !current_user.email.include?("@rincon") %>
+    <h1> Listado de chats </h1>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Chat</th>
+          <th>Vendedor</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @rooms.each do |room| %>
+      <% if room.email_cliente == current_user.email%>
+        <tr>
+          <td><%= room.name %></td>
+          <td><%= link_to "Chatea aquí", room %></td>
+          <td><%= room.nombre_vendedor%></td>
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+    <% if user_signed_in? %>
+      <a class="boton" href="rooms/new"> Nuevo chat </a>
+    <% end %>
+  <% else %>
+    <h1> Chats de compras </h1>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Chat</th>
+          <th>Cliente</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @rooms.each do |room| %>
+      <% if room.id_vendedor == current_user.id%>
+        <tr>
+          <td><%= room.name %></td>
+          <td><%= link_to "Chatea aquí", room %></td>
+          <td><%= room.email_cliente%></td>
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+    <% if user_signed_in? %>
+      <a class="boton" href="rooms/new"> Nuevo chat </a>
+    <% end %>
+    <h1> Chats de ventas </h1>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Chat</th>
+          <th>Vendedor</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @rooms.each do |room| %>
+      <% if room.email_cliente == current_user.email%>
+        <tr>
+          <td><%= room.name %></td>
+          <td><%= link_to "Chatea aquí", room %></td>
+          <td><%= room.nombre_vendedor%></td>
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

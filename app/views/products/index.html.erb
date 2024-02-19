@@ -1,0 +1,38 @@
+<div id="Products">
+  <h1>Listado de poleras</h1>
+  <%= form_tag(products_path, method: :get) do %>
+    <%= select_tag(:size, options_for_select(@available_sizes), prompt: "Todas las tallas") %>
+    <%= submit_tag("Filtrar") %>
+  <% end %>
+
+  <% if params[:size].present? %>
+    <div class="current-filter">
+      <p>Filtrado por talla: <%= params[:size] %></p>
+      <%= link_to "Eliminar filtro", products_path %>
+    </div>
+  <% end %>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Descripción</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.price %></td>
+          <td><%= product.description %></td>
+          <td><%= link_to "Más información", product %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% if user_signed_in? && current_user.email.include?("@rincon") %>
+  <a class="boton" href="products/new">Nuevo producto</a>
+<% end %>

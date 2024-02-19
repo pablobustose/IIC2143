@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <%= link_to "Todas las poleras", products_path, class: "btn btn-secondary" %>
+      <% if user_signed_in? and current_user.id == @product.id_vendedor%>
+        <%= link_to "Editar polera", edit_product_path(@product), class: "btn btn-primary mr-2" %>
+      <% end %>
+
+    </div>
+    <div class="col-md-6 text-right">
+      <% if user_signed_in? and current_user.id == @product.id_vendedor%>
+        <%= button_to "Eliminar polera", @product, method: :delete, class: "btn btn-danger" %>
+      <% end %>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><b>Nombre:</b></td>
+            <td><i><%= @product.name %></i></td>
+          </tr>
+          <tr>
+            <td><b>Precio:</b></td>
+            <td><i><%= @product.price %></i></td>
+          </tr>
+          <tr>
+            <td><b>Descripción:</b></td>
+            <td><i><%= @product.description %></i></td>
+          </tr>
+          <tr>
+          <tr>
+            <td><b>Vendedor:</b></td>
+            <td><i><%= User.find(@product.id_vendedor).email %></i></td>
+          </tr>
+            <td><b>Imagen:</b></td>
+            <td><i><%= image_tag(@product.image_url, style: "display: inline-block; 
+            height: 400px; width: 400px; object-fit: cover;") %></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Stock Talla XS</th>
+          <th>Stock Talla S</th>
+          <th>Stock Talla M</th>
+          <th>Stock Talla L</th>
+          <th>Stock Talla XL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @product.cantidad_xs %></td>
+          <td><%= @product.cantidad_s %></td>
+          <td><%= @product.cantidad_m %></td>
+          <td><%= @product.cantidad_l %></td>
+          <td><%= @product.cantidad_xl %></td>
+          <tr>
+            <% if user_signed_in? %>
+              <% if @product.cantidad_xs > 0 || @product.cantidad_s > 0 || @product.cantidad_m > 0 || @product.cantidad_l > 0 || @product.cantidad_xl > 0 %>
+                <%= form_with(url: product_requests_path(@product, :tallas), method: :post) do |form| %>
+                  <%= form.hidden_field :talla %>
+                  <% if @product.cantidad_xs > 0 %>
+                    <td>
+                      <%= form.radio_button :talla, "XS", id: "tallaXS", checked: @product.cantidad_xs > 0, class: "talla-radio" %>
+                    </td>
+                  <% else %>
+                    <td>
+                    </td>
+                  <% end %>
+                  <% if @product.cantidad_s > 0 %>
+                    <td>
+                      <%= form.radio_button :talla, "S", id: "tallaS", checked: @product.cantidad_s > 0, class: "talla-radio" %>
+                    </td>
+                  <% else %>
+                    <td>
+                    </td>
+                  <% end %>
+                  <% if @product.cantidad_m > 0 %>
+                    <td>
+                      <%= form.radio_button :talla, "M", id: "tallaM", checked: @product.cantidad_m > 0, class: "talla-radio" %>
+                    </td>
+                  <% else %>
+                    <td>
+                    </td>
+                  <% end %>
+                  <% if @product.cantidad_l > 0 %>
+                    <td>
+                      <%= form.radio_button :talla, "L", id: "tallaL", checked: @product.cantidad_l > 0, class: "talla-radio" %>
+                    </td>
+                  <% else %>
+                    <td>
+                    </td>
+                  <% end %>
+                  <% if @product.cantidad_xl > 0 %>
+                    <td>
+                      <%= form.radio_button :talla, "XL", id: "tallaXL", checked: @product.cantidad_xl > 0, class: "talla-radio" %>
+                    </td>
+                  <% else %>
+                    <td>
+                    </td>
+                  <% end %>
+                  <td>
+                  <% if @product.id_vendedor != current_user.id %>
+                    <%= form.submit "Añadir al carrito", class: "btn btn-success" %>
+                  <% end %>
+                  </td>
+                <% end %>
+              <% else %>
+                <p>Producto agotado</p>
+              <% end %>
+            <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Reseñas</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Descripción</th>
+              <th>Rating</th>
+              <th>Usuario</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @product.reviews.each do |review| %>
+            <tr>
+              <td><%= review.title %></td>
+              <td><%= review.description %></td>
+              <td><%= review.rating %></td>
+              <td><%= review.user.name %></td>
+              <td>
+                <% if user_signed_in? and current_user.id == review.user_id %>
+                <%= button_to "Eliminar reseña", product_review_path(@product, review), method: :delete, class: "btn btn-danger" %>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

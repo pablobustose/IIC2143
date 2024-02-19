@@ -1,0 +1,12 @@
+<h1>Nuevo Chat</h1>
+
+<% if @products.where.not(id_vendedor: current_user.id).present? %>
+  <%= render "form", room: @room %>
+<% else %>
+  <p>Actualmente no hay productos para que puedas crear una consulta. Inténtalo cuando exista alguno.</p>
+<% end %>
+<br>
+
+<div>
+  <%= link_to "Todas las salas", rooms_path %>
+</div>

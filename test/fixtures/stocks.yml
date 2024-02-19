@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: one
+  cantidad_xs: 1
+  cantidad_s: 1
+  cantidad_m: 1
+  cantidad_l: 1
+  cantidad_xl: 1
+
+two:
+  product: two
+  cantidad_xs: 1
+  cantidad_s: 1
+  cantidad_m: 1
+  cantidad_l: 1
+  cantidad_xl: 1

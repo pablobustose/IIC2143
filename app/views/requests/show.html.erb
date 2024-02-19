@@ -1,0 +1,19 @@
+<h1>Deseas eliminar tu solicitud?</h1>
+
+<table>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Talla</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= @request.product.name %></td>
+          <td><%= @request.talla %></td>
+        </tr>
+  </tbody>
+</table>
+
+<%= button_to "Eliminar", @request, method: :delete, class: "btn btn-primary" %>

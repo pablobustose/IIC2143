@@ -1,0 +1,114 @@
+<div id="Compras">
+  <h1> Listado de compras </h1>
+
+  <% if !current_user.email.include?("@rincon") %>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Talla</th>
+          <th>Estado de compra</th>
+          <th>Crear reseña</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @compras.each do |compra| %>
+      <% if compra.id_cliente == current_user.id%>
+        <tr>
+          <td><%= Product.find_by(id: compra.product_id).name %></td>
+          <td><%= compra.talla%></td>
+          <td><%= compra.status%></td>
+          <% if compra.status == 'Entregado'%>
+            <td>
+            <%= link_to "Agregar reseña", new_product_review_path(Product.find_by(id: compra.product_id)), class: "btn btn-primary" %>
+                </td>
+            <% else %>
+            <td> Se debe completar el pedido antes de realizar una reseña</td>
+            <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Talla</th>
+          <th>Estado de compra</th>
+          <th>Crear reseña</th>
+        </tr>
+      </thead>
+      <tbody>
+    <% @compras.each do |compra| %>
+      <% if compra.id_cliente == current_user.id%>
+        <tr>
+          <td><%= Product.find_by(id: compra.product_id).name %></td>
+          <td><%= compra.talla%></td>
+          <td><%= compra.status%></td>
+          <% if compra.status == 'Entregado'%>
+            <td>
+            <%= link_to "Agregar reseña", new_product_review_path(Product.find_by(id: compra.product_id)), class: "btn btn-primary" %>
+                </td>
+            <% else %>
+            <td> Se debe completar el pedido antes de realizar una reseña</td>
+            <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+    <h1> Listado de Ventas </h1>
+
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Talla</th>
+          <th>Cliente</th>
+          <th>Estado de venta</th>
+          <th>Acción</th>
+
+        </tr>
+      </thead>
+      <tbody>
+    <% @compras.each do |compra| %>
+      <% if compra.id_vendedor == current_user.id%>
+        <tr>
+          <td><%= Product.find(compra.product_id).name %></td>
+          <td><%= compra.talla%></td>
+          <td><%= User.find(compra.id_cliente).email %></td>
+          <td><%= compra.status%></td>
+          <% if compra.status == 'Pendiente'%>
+            <td>
+                <%= form_with(model: compra, url: compra_path(compra), method: :patch) do |f| %>
+                <%= f.select(:status, ['Aceptada por vendedor', 'En camino','Entregado']) %>
+                <%= f.submit 'Actualizar' %>
+                <% end %>
+                </td>
+            <% elsif compra.status == 'Aceptada por vendedor' %>
+            <td>
+                <%= form_with(model: compra, url: compra_path(compra), method: :patch) do |f| %>
+                <%= f.select(:status, ['En camino','Entregado']) %>
+                <%= f.submit 'Actualizar' %>
+                <% end %>
+                </td>
+            <% elsif compra.status == 'En camino' %>
+            <td>
+                <%= form_with(model: compra, url: compra_path(compra), method: :patch) do |f| %>
+                <%= f.select(:status, ['Entregado']) %>
+                <%= f.submit 'Actualizar' %>
+                <% end %>
+                </td>
+            <% else%>
+                <td> Compra finalizada</td>
+            <% end %>
+
+        </tr>
+      <% end %>
+    <% end %>
+      </tbody>
+    </table>
+
+  <% end %>
